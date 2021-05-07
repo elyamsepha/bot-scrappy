@@ -17,36 +17,26 @@ site = BeautifulSoup(content, 'html.parser')
 
 num = 1
 
-arq = open('itens.txt', 'w')
-arq.write("""
-======================================================================================
+nomes = []
+precos = []
 
-                            NOME E ENUMERAÇÃO DOS ITENS
-                            
-======================================================================================
 
-""")
 post = site.find('p', attrs={'class': "promotion-item__title"})
 for nome in site.find_all('p', attrs={'class': "promotion-item__title"}):
     for n in nome:
-    	arq.write(f"item {num}: {n}\n")
-    	num = num + 1
-num = 1
-arq.write("\n\n")
-arq.write("""
-======================================================================================
-
-                            PREÇO DOS ITENS
-                            
-======================================================================================
-
-""")
+    	nomes.append(n)
+    	
 for preco in site.find_all('span', attrs={'class': "promotion-item__price"}):
 	for pre in preco:
 		for p in pre:
 			if ('$' in p) == True:
-				arq.write(f"preço do item {num}: {p}\n")
-				num = num + 1
+				precos.append(p)
 			else:
 				pass
-arq.close()
+
+arq = open('itens.txt', 'w')
+
+num = 0
+for c in range(len(nomes)):
+	arq.write(f'titulo: {nomes[num]}\npreço: {precos[num]}\n\n')
+	num = num + 1
